@@ -1,41 +1,39 @@
-import './Header.js';
-import './Nav.js';
-import './Main.js';
-import './Footer.js';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Booking from "./components/Booking";
+import BookingConfirmation from "./components/BookingConfirmation";
+import { useFormContext } from "./store/FormContext";
+import "./App.css";
 
 function App() {
+  const { form } = useFormContext();
+
+  const formProps = {
+    name: form.name,
+    date: form.date,
+    time: form.time,
+    guests: form.numberOfGuests,
+    occasion: form.occasion,
+    table: form.tablePreference,
+    request: form.message,
+  };
+
   return (
-    <>
-      <Header>
-        <img src="./logo.jpeg" alt="Little-Lemon-Logo" />
-        <Nav>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/Menu">Menu</a></li>
-            <li><a href="/Reservation">Reservation</a></li>
-            <li><a href="/Order-Online">Order Online</a></li>
-            <li><a href="/Login">Login</a></li>
-          </ul>
-        </Nav>
-      </Header>
-      <Main>
-      </Main>
-      <Footer>
-        <Nav>
-          <h3>Doormat Navigation</h3>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/Menu">Menu</a></li>
-            <li><a href="/Reservation">Reservation</a></li>
-            <li><a href="/Order-Online">Order Online</a></li>
-            <li><a href="/Login">Login</a></li>
-          </ul>
-        </Nav>
-      </Footer>ù
-    </>
+    <BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route
+          path="/booking-confirmation"
+          element={<BookingConfirmation {...formProps} />}
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
